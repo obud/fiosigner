@@ -1,0 +1,10 @@
+.idea
+vendor
+*.pem
+*.pub
+bin/*.pem
+bin/*.pub
+keys/*.pem
+keys/*.pub
+run.php
+composer.lock

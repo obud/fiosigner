@@ -1,0 +1,35 @@
+{
+    "name": "obud/fiosigner",
+    "description": "PHP implementation of the Fio Signer application, which allows to automatically sign authorization requests using your private key.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ondřej Budín",
+            "email": "obud@obud.cz"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "ext-simplexml": "*",
+        "ext-openssl": "*",
+        "ext-dom": "*"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.4",
+        "phpstan/extension-installer": "^1.1",
+        "spaze/phpstan-disallowed-calls": "^2.2",
+        "roave/security-advisories": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Obud\\FioSigner\\": "src/"
+        }
+    },
+    "scripts": {
+        "phpstan": [
+            "vendor/bin/phpstan analyse -c phpstan.neon --no-progress"
+        ]
+    },
+    "minimum-stability": "stable"
+}

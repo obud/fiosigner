@@ -1,0 +1,32 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+if (PHP_SAPI !== 'cli') {
+    die('Only CLI.' . PHP_EOL);
+}
+if (!isset($argv[1], $argv[2])) {
+    die('Please enter your internet banking username to the first parameter and private key passphrase to the second parameter.' . PHP_EOL);
+}
+
+$config = [
+    'digest_alg' => 'sha256',
+    'private_key_bits' => 2048,
+    'private_key_type' => OPENSSL_KEYTYPE_RSA,
+];
+
+$key = openssl_pkey_new($config);
+openssl_pkey_export($key, $privateKey, $argv[2]);
+
+$publicKey = openssl_pkey_get_details($key)['key'];
+
+file_put_contents('./private.pem', $privateKey);
+file_put_contents('./public.pem', $publicKey);
+
+$date = date('Y-m-d_H-i');
+$fioPublicKey = str_replace(['-----BEGIN PUBLIC KEY-----', '-----END PUBLIC KEY-----', PHP_EOL], '', $publicKey);
+$fioPublicKey = implode(PHP_EOL, str_split($fioPublicKey, 76));
+$fioPublicKey = '-----BEGIN PUBLIC KEY-----' . PHP_EOL . $fioPublicKey . PHP_EOL . '-----END PUBLIC KEY-----' . PHP_EOL;
+
+file_put_contents("./$argv[1]_$date.xml.pub", $fioPublicKey);
